@@ -1,0 +1,30 @@
+name: Scraping Workflow  # Nombre del workflow.
+
+on:  # Especifica los eventos que disparan la ejecución del workflow.
+  push:
+    branches:
+      - main  # Ejecuta el workflow en cada push a la rama main.
+  workflow_dispatch:  # Permite ejecutar el workflow manualmente desde GitHub.
+
+jobs:  # Define los trabajos que se ejecutarán en el workflow.
+  scrape_job:  # Nombre del trabajo.
+    runs-on: ubuntu-latest  # Especifica el sistema operativo en el que se ejecutará el trabajo.
+
+    steps:  # Define los pasos a ejecutar en el trabajo.
+    - name: Checkout repository content  # Nombre del paso.
+      uses: actions/checkout@v2  # Usa la acción para clonar el contenido del repositorio.
+
+    - name: Set up Python  # Nombre del paso.
+      uses: actions/setup-python@v2  # Usa la acción para configurar la versión de Python.
+      with:
+        python-version: '3.12.4'  # Especifica la versión de Python a usar.
+
+    - name: Install dependencies  # Nombre del paso.
+      run: |  # Ejecuta una serie de comandos de shell.
+        python -m pip install --upgrade pip  # Actualiza pip.
+        pip install requests  # Instala la librería requests.
+        pip install beautifulsoup4  # Instala la librería BeautifulSoup4.
+        pip install pandas  # Instala la librería pandas.
+
+    - name: Run scraping script  # Nombre del paso.
+      run: python Actividad1.ipynb  # Ejecuta el script de scraping.
